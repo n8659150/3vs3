@@ -1,5 +1,5 @@
-﻿html,body {
-	
+html,body {
+	overflow-y:auto;
 }
 body {
 	width:100%;
