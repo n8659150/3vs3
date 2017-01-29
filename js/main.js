@@ -7,22 +7,26 @@ window.onload = function(){
 		httpReq.send();
 		return JSON.parse(httpReq.responseText);
 	}
+
 	function loadHotNews(sourcename){
 		let newsData = fetchData(sourcename);
 		let oHotNewsTitles = document.getElementById("hot-news-titles");
 		let oHotNewsDates = document.getElementById("hot-news-dates");
 		let aHotNewsLists = oHotNewsTitles.getElementsByTagName("a");
 		let aHotNewsDateLists = oHotNewsDates.getElementsByTagName("li");
-		for (let hotNewsList of aHotNewsLists){
-			for (let newsItem of newsData){
-				hotNewsList.innerHTML = newsItem["name"];
+		for (let i = 0; i < aHotNewsLists.length; i++){
+			if (newsData[i]["name"] == undefined) {
+				return;
 			}
+			aHotNewsLists[i].innerHTML = newsData[i]["name"];
 		}
-		for (let hotNewsDateTime of aHotNewsDateLists){
-			for (let newsItem of newsData){
-				hotNewsDateTime.innerHTML = newsItem["date"];
+		for (let j = 0; j < aHotNewsDateLists.length; j++){
+			if (newsData[j]["date"] == undefined) {
+				return;
 			}
+			aHotNewsDateLists[j].innerHTML = newsData[j]["date"];
 		}
+		
 	}
 	function loadBasSchoolArticles(sourcename){
 		let articleData = fetchData(sourcename);
@@ -30,17 +34,19 @@ window.onload = function(){
 		let oBasSchoolDates = document.getElementById("bas-school-dates");
 		let aArticleLists = oBasSchoolTitles.getElementsByTagName("a");
 		let aArticleDateLists = oBasSchoolDates.getElementsByTagName("li");
-		for (let articleList of aArticleLists){
-			for (let articleItem of articleData){
-				articleList.innerHTML = articleItem["name"];
+		for (let i = 0; i < aArticleLists.length;i++){
+			if (articleData[i]["name"] == undefined) {
+				return;
 			}
+			aArticleLists[i].innerHTML = articleData[i]["name"];
 		}
-		for (let articleDateTime of aArticleDateLists){
-			for (let articleItem of articleData){
-				articleDateTime.innerHTML = articleItem["date"];
+		for (let j = 0; j < aArticleDateLists.length;j++){
+			if (articleData[j]["date"] == undefined) {
+				return;
 			}
+			aArticleDateLists[j].innerHTML = articleData[j]["date"];
 		}
 	}
 	loadHotNews("news-center-hot-news");
 	loadBasSchoolArticles("news-center-hot-news");
-}
+};
