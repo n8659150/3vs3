@@ -1,5 +1,5 @@
 "use strict";
-window.onload = function(){
+$(document).ready(function(){
 	function fetchData(name){
 		let httpReq = new XMLHttpRequest();
 		let url = "data/"+name+".json"
@@ -7,25 +7,26 @@ window.onload = function(){
 		httpReq.send();
 		return JSON.parse(httpReq.responseText);
 	}
-
 	function loadHotNews(sourcename){
 		let newsData = fetchData(sourcename);
-		for (let i = 0; i < 7; i++){
-			let titleElement = "<li><a href='#'>"+newsData[i]["name"]+"</a></li>";
-			let dateElement = "<li>"+newsData[i]["date"]+"</li>";
-			$("#hot-news-titles").append(titleElement);
-			$("#hot-news-dates").append(dateElement);
+		let titleElements = $("#hot-news-titles").find("a");
+		let dateElements = $("#hot-news-dates").find("li");
+		for (let i = 0; i < titleElements.length; i++){
+			titleElements.eq(i).text(newsData[i]["name"]);
+			dateElements.eq(i).text(newsData[i]["date"]);
 		}
 	}
 	function loadBasSchoolArticles(sourcename){
 		let articleData = fetchData(sourcename);
-		for (let i = 0; i < 8; i++){
-			let titleElement = "<li><a href='#'>"+articleData[i]["name"]+"</a></li>";
-			let dateElement = "<li>"+articleData[i]["date"]+"</li>";
-			$("#bas-school-titles").append(titleElement);
-			$("#bas-school-dates").append(dateElement);
+		let titleElements = $("#bas-school-titles").find("a");
+		let dateElements = $("#bas-school-dates").find("li");
+		for (let i = 0; i < titleElements.length; i++){
+			titleElements.eq(i).text(articleData[i]["name"]);
+			let url = "http://3vs3.qq.com/article/"+i;
+			titleElements.eq(i).attr("href",url)
+			dateElements.eq(i).text(articleData[i]["date"]);
 		}
 	}
 	loadHotNews("news-center-hot-news");
 	loadBasSchoolArticles("news-center-hot-news");
-};
+});
