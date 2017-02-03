@@ -1,32 +1,95 @@
-"use strict";
-$(document).ready(function(){
-	function fetchData(name){
-		let httpReq = new XMLHttpRequest();
-		let url = "data/"+name+".json"
-		httpReq.open("GET",url,false);
-		httpReq.send();
-		return JSON.parse(httpReq.responseText);
-	}
-	function loadHotNews(sourcename){
-		let newsData = fetchData(sourcename);
-		let titleElements = $("#hot-news-titles").find("a");
-		let dateElements = $("#hot-news-dates").find("li");
-		for (let i = 0; i < titleElements.length; i++){
-			titleElements.eq(i).text(newsData[i]["name"]);
-			dateElements.eq(i).text(newsData[i]["date"]);
+avalon.ready(function(){
+		let newsCenterData = avalon.define({
+		$id:"newsCenterData",
+		data:[]
+		});
+		let newsCenterNav = avalon.define({
+		$id:"newsCenterNav",
+		navData:["热门","新闻","公告","活动","赛事"],
+		getData:function(source){
+			switch(source){
+				case 0:
+					fetch("data/news-center/hot-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 1:
+					fetch("data/news-center/latest-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 2:
+					fetch("data/news-center/announcement-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 3:
+					fetch("data/news-center/event-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 4:
+					fetch("data/news-center/sportsgame-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				default:
+					fetch("data/news-center/hot-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+			}
+				
 		}
-	}
-	function loadBasSchoolArticles(sourcename){
-		let articleData = fetchData(sourcename);
-		let titleElements = $("#bas-school-titles").find("a");
-		let dateElements = $("#bas-school-dates").find("li");
-		for (let i = 0; i < titleElements.length; i++){
-			titleElements.eq(i).text(articleData[i]["name"]);
-			let url = "http://3vs3.qq.com/article/"+i;
-			titleElements.eq(i).attr("href",url)
-			dateElements.eq(i).text(articleData[i]["date"]);
-		}
-	}
-	loadHotNews("news-center-hot-news");
-	loadBasSchoolArticles("news-center-hot-news");
-});
+	})	
+		avalon.scan(document.body);
+		newsCenterData.data = newsCenterNav.getData(0);
+	})
