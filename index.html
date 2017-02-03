@@ -114,33 +114,17 @@
 							<i class="news-center-icon"></i>
 							<span class="media-section-title">新闻中心</span>
 						</div>
-						<div class="media-section-nav">
+						<div ms-controller="newsCenterNav" class="media-section-nav">
 							<ul class="flex">
-								<li><a class="active" href="#">热门</a></li>
-								<li><a href="#">新闻</a></li>
-								<li><a href="#">公告</a></li>
-								<li><a href="#">活动</a></li>
-								<li><a href="#">赛事</a></li>
+								<li ms-for="(itemIndex,navItem) in @navData"><a ms-mouseover="@getData(itemIndex)":hover="['active']" href="#">{{navItem}}</a></li>
 							</ul>
 						</div>
-						<div class="flex space-between media-section-content">
+						<div ms-controller="newsCenterData" class="flex space-between media-section-content">
 							<ul id="hot-news-titles">
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
+								<li ms-for="news in @data | limitBy(7)"><a href="#">{{news.name}}</a></li>
 							</ul>
 							<ul id="hot-news-dates">
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>						
+								<li ms-for="news in @data | limitBy(7)">{{news.date}}</li>					
 							</ul>
 						</div>
 					</div>
@@ -353,6 +337,105 @@
 		</div>
 	</footer>
 	<script src="http://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
-	<script src="js/main.js"></script>
+	<script src="http://cdn.bootcss.com/avalon.js/2.2.4/avalon.modern.js"></script>
+	<script src="js/fetch.js"></script>
+	<script>
+	let newsCenterData = avalon.define({
+		$id:"newsCenterData",
+		data:[]
+	});
+
+	let newsCenterNav = avalon.define({
+		$id:"newsCenterNav",
+		navData:["热门","新闻","公告","活动","赛事"],
+		getData:function(source){
+			switch(source){
+				case 0:
+					fetch("data/news-center/hot-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 1:
+					fetch("data/news-center/latest-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 2:
+					fetch("data/news-center/announcement-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 3:
+					fetch("data/news-center/event-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				case 4:
+					fetch("data/news-center/sportsgame-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+				default:
+					fetch("data/news-center/hot-news.json")
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(json){
+							console.log(json)
+							newsCenterData.data = json;
+						})
+						.catch(function(error){
+							console.log("oops,error happens:",error);
+						})
+					break;
+			}
+				
+		}
+	})
+
+	avalon.ready(function(){
+		newsCenterData.data = newsCenterNav.getData(0);
+	})
+	</script>
 </body>
 </html>
