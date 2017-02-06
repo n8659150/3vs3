@@ -116,7 +116,7 @@
 						</div>
 						<div ms-controller="newsCenterNav" class="media-section-nav">
 							<ul class="flex">
-								<li ms-for="(itemIndex,navItem) in @navData"><a ms-mouseover="@getData(itemIndex)":hover="['active']" href="#">{{navItem}}</a></li>
+								<li ms-for="(itemIndex,newsCenter) in @navData"><a ms-mouseover="@getData(itemIndex)":class="(itemIndex==0?'active':'')" :hover="['active']" href="#">{{newsCenter}}</a></li>
 							</ul>
 						</div>
 						<div ms-controller="newsCenterData" class="flex space-between media-section-content">
@@ -264,35 +264,17 @@
 							<i class="game-tool-icon"></i>
 							<span class="media-section-title">篮球学院</span>
 						</div>
-						<div class="media-section-nav">
+						<div ms-controller="basSchoolNav" class="media-section-nav">
 							<ul class="flex">
-								<li><a class="active" href="#">最新</a></li>
-								<li><a href="#">球员</a></li>
-								<li><a href="#">新手</a></li>
-								<li><a href="#">同人</a></li>
-								<li><a href="#">官方</a></li>
+								<li ms-for="(itemIndex,basSchoolNavItem) in @data"><a :class="(itemIndex==0?'active':'')" :hover="['active']" ms-mouseover="@getData(itemIndex)" href="#">{{basSchoolNavItem}}</a></li>
 							</ul>
 						</div>
-						<div class="flex space-between media-section-content">
+						<div ms-controller="basSchoolData" class="flex space-between media-section-content">
 							<ul id="bas-school-titles">
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li><a href="#"></a></li>
-								<li style="margin-bottom:0;"><a href="#"></a></li>
+								<li ms-for="basSchoolNews in @data | limitBy(7)"><a href="#">{{basSchoolNews.name}}</a></li>
 							</ul>
 							<ul id="bas-school-dates">
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li></li>
-								<li style="margin-bottom:0;"></li>							
+								<li ms-for="basSchoolNews in @data | limitBy(7)"><a href="#">{{basSchoolNews.date}}</a></li>							
 							</ul>
 						</div>
 					</div>
